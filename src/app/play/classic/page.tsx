@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Classic Sudoku Puzzles — Play Free Online | SudoZen",
     description:
       "Play free classic 9×9 Sudoku puzzles online. Easy, Medium, Hard, and Expert levels with pencil marks, hints, and an intelligent logic solver.",
-    url: "https://sudozen.com/play/classic",
+    url: "https://sudozen.vercel.app/play/classic",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Classic Sudoku on SudoZen" }],
   },
   twitter: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/play/classic",
+    canonical: "https://sudozen.vercel.app/play/classic",
   },
 };
 

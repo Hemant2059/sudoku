@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const baseUrl = "https://sudozen.com";
+const baseUrl = "https://sudozen.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

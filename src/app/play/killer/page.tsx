@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Killer Sudoku Puzzles — Play Free Online | SudoZen",
     description:
       "Play free Killer Sudoku online with cage sums and classic Sudoku logic. Step-by-step solver, hints, and pencil marks included.",
-    url: "https://sudozen.com/play/killer",
+    url: "https://sudozen.vercel.app/play/killer",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Killer Sudoku on SudoZen" }],
   },
   twitter: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/play/killer",
+    canonical: "https://sudozen.vercel.app/play/killer",
   },
 };
 

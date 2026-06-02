@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Play Sudoku Online — Free Classic & Variant Puzzles | SudoZen",
     description:
       "Play free Sudoku online with 12+ variants, a step-by-step logic solver, smart hints, and interactive strategy guides. Classic, Killer, X-Sudoku, Thermo, Arrow, and more.",
-    url: "https://sudozen.com",
+    url: "https://sudozen.vercel.app",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "SudoZen Sudoku Online" }],
   },
   twitter: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com",
+    canonical: "https://sudozen.vercel.app",
   },
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Play Sudoku & Variants — Classic, Killer & Extra Rules | SudoZen",
     description:
       "Play 12+ Sudoku variants online: Classic, Killer, X-Sudoku, Thermo, Arrow, Palindrome, Renban, Kropki, Anti-Knight, and more. Create custom puzzles in sandbox mode.",
-    url: "https://sudozen.com/play",
+    url: "https://sudozen.vercel.app/play",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "SudoZen Play Sudoku" }],
   },
   twitter: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/play",
+    canonical: "https://sudozen.vercel.app/play",
   },
 };
 

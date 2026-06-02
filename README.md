@@ -46,7 +46,7 @@ cp /path/to/soduko/target/release/soduko bin/soduko
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [https://sudozen.vercel.app](https://sudozen.vercel.app) in your browser.
 
 ## Rust Binary
 

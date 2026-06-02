@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://sudozen.com";
+const baseUrl = "https://sudozen.vercel.app";
 
 const variants = [
   "xsudoku", "hyper", "antiknight", "antiking", "thermo", "arrow",

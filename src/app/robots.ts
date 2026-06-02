@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/"],
       },
     ],
-    sitemap: "https://sudozen.com/sitemap.xml",
+    sitemap: "https://sudozen.vercel.app/sitemap.xml",
   };
 }

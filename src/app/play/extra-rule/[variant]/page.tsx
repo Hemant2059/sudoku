@@ -28,7 +28,7 @@ const variantKeywords: Record<string, string[]> = {
   greaterthan: ["greater than sudoku", "inequality sudoku", "greater sudoku"],
 };
 
-const baseUrl = "https://sudozen.com";
+const baseUrl = "https://sudozen.vercel.app";
 
 type Props = {
   params: Promise<{ variant: string }>;

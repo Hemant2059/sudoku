@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Learn Sudoku Strategies — Step-by-Step Guide | SudoZen",
     description:
       "Master Sudoku strategies with interactive guides. Naked Single, X-Wing, Swordfish, XY-Chain, and more — from beginner to extreme techniques.",
-    url: "https://sudozen.com/learn",
+    url: "https://sudozen.vercel.app/learn",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Learn Sudoku Strategies on SudoZen" }],
   },
   twitter: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/learn",
+    canonical: "https://sudozen.vercel.app/learn",
   },
 };
 

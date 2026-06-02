@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Extra Rule Sudoku Variants — X-Sudoku, Thermo, Arrow & More | SudoZen",
     description:
       "Play 11+ creative Sudoku variants including X-Sudoku, Hyper-Sudoku, Thermo, Arrow, Palindrome, Renban, Kropki, XV, Greater Than, Anti-Knight, and Anti-King.",
-    url: "https://sudozen.com/play/extra-rule",
+    url: "https://sudozen.vercel.app/play/extra-rule",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Extra Rule Sudoku Variants on SudoZen" }],
   },
   twitter: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/play/extra-rule",
+    canonical: "https://sudozen.vercel.app/play/extra-rule",
   },
 };
 

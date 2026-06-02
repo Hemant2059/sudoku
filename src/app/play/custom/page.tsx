@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Custom Sudoku Sandbox — Design Your Own Puzzles | SudoZen",
     description:
       "Create custom Sudoku puzzles with your own board strings, Killer cage definitions, and variant constraints. Play and solve them with the step-by-step solver.",
-    url: "https://sudozen.com/play/custom",
+    url: "https://sudozen.vercel.app/play/custom",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Custom Sudoku Sandbox on SudoZen" }],
   },
   twitter: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/play/custom",
+    canonical: "https://sudozen.vercel.app/play/custom",
   },
 };
 

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     title: "Step-by-Step Sudoku Solver — Free Online Logic Solver | SudoZen",
     description:
       "Solve Sudoku puzzles step-by-step with detailed logic explanations. Supports 12+ variants. Shows strategy names, grid mutations, and proof chains for each deduction.",
-    url: "https://sudozen.com/solver",
+    url: "https://sudozen.vercel.app/solver",
     images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "Sudoku Solver on SudoZen" }],
   },
   twitter: {
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     images: ["/og_image.png"],
   },
   alternates: {
-    canonical: "https://sudozen.com/solver",
+    canonical: "https://sudozen.vercel.app/solver",
   },
 };
 
