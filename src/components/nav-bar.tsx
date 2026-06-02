@@ -43,10 +43,10 @@ export function NavBar() {
 
   return (
     <header className="border-b border-border bg-background/80 backdrop-blur sticky top-0 z-50 transition-colors duration-200">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
           <div className="relative flex items-center justify-center p-0.5 transition-transform duration-300 group-hover:scale-105">
-            <svg viewBox="0 0 32 32" className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg viewBox="0 0 32 32" className="w-7 h-7 text-primary" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
               <circle cx="16" cy="16" r="13" className="stroke-primary" opacity="0.9" />
               <circle cx="16" cy="16" r="7" className="stroke-secondary-foreground" opacity="0.7" strokeDasharray="3 2" />
               <line x1="16" y1="3" x2="16" y2="29" className="stroke-primary" opacity="0.5" />
@@ -66,7 +66,7 @@ export function NavBar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3.5 py-1.5 rounded-xl text-sm font-semibold transition-all duration-200",
+                  "px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200",
                   pathname === link.href || pathname.startsWith(link.href + "/")
                     ? "bg-primary text-primary-foreground shadow-sm shadow-indigo-600/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary"

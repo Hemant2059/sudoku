@@ -299,7 +299,7 @@ export function SudokuGrid({
       role="grid"
       aria-label="Sudoku Board Grid"
       onKeyDown={onKeyDown ?? undefined}
-      className="w-full max-w-[min(500px,calc(100vw-32px),55dvh)] lg:max-w-[min(650px,70dvh)] mx-auto focus:outline-none"
+      className="w-full mx-auto focus:outline-none"
     >
       <div
         className="grid border-[2.5px] rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_35px_rgba(0,0,0,0.4)] border-border bg-card relative"

@@ -32,9 +32,7 @@ import {
   toggleColor,
 } from "@/lib/sudoku";
 import { GameHeader } from "@/components/play/game-header";
-import { GameToolbar } from "@/components/play/game-toolbar";
 import { ConflictModeSelector } from "@/components/play/conflict-mode-selector";
-import { ActionRow } from "@/components/play/action-row";
 import { NumberPad } from "@/components/play/number-pad";
 import { ColorPicker } from "@/components/play/color-picker";
 import { HintPanel } from "@/components/play/hint-panel";
@@ -113,6 +111,7 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
   const [paused, setPaused] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [showCompletedDialog, setShowCompletedDialog] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const [conflictMode, setConflictMode] = useState<"peer" | "answer" | "none">("peer");
   const conflictModeRef = useRef(conflictMode);
   conflictModeRef.current = conflictMode;
@@ -960,16 +959,22 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
   return (
     <>
       <style>{`
+        body.fs-active header.sticky { display: none !important; }
         @media print {
           body * { visibility: hidden; }
           .print-grid-area, .print-grid-area * { visibility: visible; }
-          .print-grid-area { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+          .print-grid-area { position: fixed !important; inset: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; background: white !important; z-index: 9999 !important; padding: 0 !important; }
+          .print-grid-area > div { max-width: none !important; width: 95vmin !important; }
+          .print-grid-area button > span { font-size: clamp(28px, 5vw, 48px) !important; }
+          .print-grid-area .grid-cols-3 > span { font-size: clamp(12px, 2.5vw, 22px) !important; }
           .cage-border { border-color: #000 !important; }
         }
       `}</style>
-      <div className="min-h-[calc(100dvh-57px)] bg-background flex flex-col lg:flex-row items-center justify-center py-2 lg:py-6 px-2 sm:px-4 lg:px-8 gap-4 lg:gap-8 max-w-6xl mx-auto w-full transition-colors duration-200">
-        <div className="flex flex-col gap-3 w-full max-w-[500px] lg:hidden">
-          <GameHeader
+      <div className="min-h-0 flex-1 bg-background flex flex-col transition-colors duration-200 overflow-x-hidden">
+        {/* Header bar - floating overlay style */}
+        <div className="shrink-0 pt-1.5 px-2 sm:px-3">
+          <div className="max-w-xl mx-auto shadow-sm border border-border bg-background/95 backdrop-blur rounded-xl px-2 py-1">
+            <GameHeader
             displayDifficulty={displayDifficulty}
             loading={loading}
             graderLevels={hideDifficulty ? undefined : GRADER_LEVELS}
@@ -980,128 +985,178 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
             onPauseToggle={handlePauseToggle}
             fmtTime={fmtTime}
             onOpenRules={() => setRulesOpen(true)}
+            hideDifficulty={hideDifficulty}
           />
-          <GameToolbar
-            undoDisabled={undoStack.length === 0 || phase !== "playing"}
-            redoDisabled={redoStack.length === 0 || phase !== "playing"}
-            phase={phase}
-            mistakesSize={mistakes.size}
-            onUndo={handleUndo}
-            onRedo={handleRedo}
-            onSelectAll={handleSelectAll}
-            onPrint={handlePrint}
-            onExport={handleExport}
-            onSubmit={handleSubmit}
-            onSolve={handleSolve}
-          />
+          </div>
         </div>
-
-        <div className="w-full max-w-[500px] lg:max-w-[650px] lg:flex-1 relative mb-2 lg:mb-0 lg:flex lg:flex-col lg:items-center lg:justify-center print-grid-area">
-          <SudokuGrid
-            cells={cells}
-            selectedIndex={selectedIndex}
-            multiSelectedIndices={selectedIndices.size > 1 ? selectedIndices : undefined}
-            onCellClick={handleCellClick}
-            onKeyDown={handleGridKeyDown}
-            onCellPointerDown={handleCellPointerDown}
-            onCellPointerUp={handleCellPointerUp}
-            inputMode={inputMode}
-            hintHighlights={activeHint?.uiHighlights ?? null}
-            solved={phase === "correct"}
-            cages={cages}
-            variant={variant}
-            constraints={constraints}
-          />
-          {phase === "correct" && (
-            <SuccessOverlay
-              difficulty={difficulty}
-              elapsed={elapsed}
-              fmtTime={fmtTime}
-              onPlayAgain={() => newGame()}
-            />
-          )}
-          {paused && (
-            <PauseOverlay
-              elapsed={elapsed}
-              fmtTime={fmtTime}
-              onResume={handlePauseToggle}
-            />
-          )}
-        </div>
-
-        <div className="w-full max-w-[500px] lg:w-[360px] lg:shrink-0 flex flex-col gap-4">
-          <div className="hidden lg:flex flex-col gap-3">
-            <GameHeader
-              displayDifficulty={displayDifficulty}
-              loading={loading}
-              graderLevels={hideDifficulty ? undefined : GRADER_LEVELS}
-              onDifficultyChange={handleDifficultyChange}
-              onNewGame={handleHeaderNewGame}
-              elapsed={elapsed}
-              paused={paused}
-              onPauseToggle={handlePauseToggle}
-              fmtTime={fmtTime}
-              onOpenRules={() => setRulesOpen(true)}
-              hideDifficulty={hideDifficulty}
-            />
-
-            <GameToolbar
-              undoDisabled={undoStack.length === 0 || phase !== "playing"}
-              redoDisabled={redoStack.length === 0 || phase !== "playing"}
-              phase={phase}
-              mistakesSize={mistakes.size}
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              onSelectAll={handleSelectAll}
-              onPrint={handlePrint}
-              onExport={handleExport}
-              onSubmit={handleSubmit}
-              onSolve={handleSolve}
-            />
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+          {/* Grid area */}
+          <div className="flex-1 flex items-center justify-center p-2 sm:p-3 lg:p-4 min-h-0 print-grid-area">
+            <div className="w-full max-w-[min(550px,calc(100vw-16px),65dvh)] lg:max-w-[min(78dvh,800px)]">
+              <SudokuGrid
+                cells={cells}
+                selectedIndex={selectedIndex}
+                multiSelectedIndices={selectedIndices.size > 1 ? selectedIndices : undefined}
+                onCellClick={handleCellClick}
+                onKeyDown={handleGridKeyDown}
+                onCellPointerDown={handleCellPointerDown}
+                onCellPointerUp={handleCellPointerUp}
+                inputMode={inputMode}
+                hintHighlights={activeHint?.uiHighlights ?? null}
+                solved={phase === "correct"}
+                cages={cages}
+                variant={variant}
+                constraints={constraints}
+              />
+            </div>
+            {phase === "correct" && (
+              <SuccessOverlay
+                difficulty={difficulty}
+                elapsed={elapsed}
+                fmtTime={fmtTime}
+                onPlayAgain={() => newGame()}
+              />
+            )}
+            {paused && (
+              <PauseOverlay
+                elapsed={elapsed}
+                fmtTime={fmtTime}
+                onResume={handlePauseToggle}
+              />
+            )}
           </div>
 
-          <ConflictModeSelector
-            value={conflictMode}
-            onChange={setConflictMode}
-          />
+          {/* Controls panel */}
+          <div className="lg:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-border bg-background p-2 sm:p-3 flex flex-col gap-2">
+            {/* Unified action bar - large buttons with keyboard shortcuts */}
+            <div className="grid grid-cols-4 gap-1.5">
+              <button onClick={handleUndo} disabled={undoStack.length === 0 || phase !== "playing"} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Undo">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Ctrl+Z</span>
+              </button>
+              <button onClick={handleRedo} disabled={redoStack.length === 0 || phase !== "playing"} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Redo">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Ctrl+Y</span>
+              </button>
+              <button onClick={handlePencilToggle} className={`h-12 rounded-xl border transition-colors flex flex-col items-center justify-center ${inputMode === "PENCIL" ? "bg-primary text-primary-foreground border-primary" : "border-border bg-card text-foreground hover:bg-secondary"}`} title="Notes mode">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Shift+1-9</span>
+              </button>
+              <button onClick={handleCenterToggle} className={`h-12 rounded-xl border transition-colors flex flex-col items-center justify-center ${inputMode === "CENTER" ? "bg-primary text-primary-foreground border-primary" : "border-border bg-card text-foreground hover:bg-secondary"}`} title="Center marks">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z" /><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Ctrl+1-9</span>
+              </button>
+              <button onClick={handleErase} disabled={phase !== "playing"} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Erase">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Del</span>
+              </button>
+              <button onClick={handleAutoFillNotes} disabled={phase !== "playing"} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Auto-fill candidates">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Auto</span>
+              </button>
+              <button onClick={handleGetHint} disabled={phase !== "playing" || loading || !!(cages && cages.length > 0)} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Get a hint">
+                {loading ? (
+                  <svg className="animate-spin w-4 h-4 mb-0.5" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                ) : (
+                  <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                )}
+                <span className="text-[9px] leading-none text-muted-foreground">H</span>
+              </button>
+              <button onClick={handleSelectAll} disabled={phase !== "playing"} className="h-12 rounded-xl border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 transition-colors flex flex-col items-center justify-center" title="Select all">
+                <svg className="w-4 h-4 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                <span className="text-[9px] leading-none text-muted-foreground">Ctrl+A</span>
+              </button>
+            </div>
 
-          <ActionRow
-            phase={phase}
-            loading={loading}
-            inputMode={inputMode}
-            onPencilToggle={handlePencilToggle}
-            onCenterToggle={handleCenterToggle}
-            onErase={handleErase}
-            onClear={handleClear}
-            onHint={handleGetHint}
-            onAutoFill={handleAutoFillNotes}
-            hintDisabled={!!(cages && cages.length > 0)}
-          />
-
-          {activeHint && (
-            <HintPanel
-              activeHint={activeHint}
-              onDismiss={handleDismissHint}
-              onApply={handleApplyHint}
+            {/* NumberPad */}
+            <NumberPad
+              phase={phase}
+              numberStamp={numberStamp}
+              onNumberClick={handleNumberClick}
             />
-          )}
 
-          <NumberPad
-            phase={phase}
-            numberStamp={numberStamp}
-            onNumberClick={handleNumberClick}
-          />
+            {/* Solve / Submit row */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleSubmit}
+                disabled={phase !== "playing"}
+                className="flex-1 h-10 rounded-xl bg-foreground text-background text-xs font-bold hover:opacity-90 disabled:opacity-40 transition-opacity"
+              >
+                Submit
+              </button>
+              <button
+                onClick={handleSolve}
+                disabled={!puzzleString}
+                className="flex-1 h-10 rounded-xl border border-border bg-card text-foreground hover:bg-secondary text-xs font-semibold disabled:opacity-40 transition-colors"
+              >
+                Solve
+              </button>
+            </div>
 
-          <ColorPicker
-            phase={phase}
-            onApplyColor={handleApplyColor}
-            onEraseColor={handleEraseColor}
-          />
+            {phase === "correct" && (
+              <div className="text-center text-[10px] font-bold text-emerald-600 dark:text-emerald-400 py-1">
+                SOLVED!
+              </div>
+            )}
+            {phase === "wrong" && (
+              <div className="text-center text-[10px] font-bold text-red-500 py-1">
+                {mistakes.size} ERRORS
+              </div>
+            )}
 
-          <CompletedDialog
-            open={showCompletedDialog}
-            onOpenChange={setShowCompletedDialog}
-          />
+            {/* Tools & Settings collapsible */}
+            <div className="rounded-2xl border border-border bg-card overflow-hidden">
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-foreground hover:bg-secondary/70 transition-colors"
+                onClick={() => setToolsOpen((open) => !open)}
+              >
+                <span>Tools & Settings</span>
+                <span className="text-base leading-none">{toolsOpen ? "−" : "+"}</span>
+              </button>
+              {toolsOpen && (
+                <div className="border-t border-border p-3 space-y-3">
+                  <div className="space-y-2">
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">Validation</p>
+                    <ConflictModeSelector
+                      value={conflictMode}
+                      onChange={setConflictMode}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">Cell colors</p>
+                    <ColorPicker
+                      phase={phase}
+                      onApplyColor={handleApplyColor}
+                      onEraseColor={handleEraseColor}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">Tools</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      <button onClick={handlePrint} className="h-9 px-3 rounded-lg border border-border bg-card text-foreground hover:bg-secondary text-[10px] font-semibold transition-colors">Print</button>
+                      <button onClick={handleExport} disabled={phase !== "playing"} className="h-9 px-3 rounded-lg border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 text-[10px] font-semibold transition-colors">Export</button>
+                      <button onClick={handleSelectAll} disabled={phase !== "playing"} className="h-9 px-3 rounded-lg border border-border bg-card text-foreground hover:bg-secondary disabled:opacity-40 text-[10px] font-semibold transition-colors">Select all</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Hint panel */}
+            {activeHint && (
+              <HintPanel
+                activeHint={activeHint}
+                onDismiss={handleDismissHint}
+                onApply={handleApplyHint}
+              />
+            )}
+
+            <CompletedDialog
+              open={showCompletedDialog}
+              onOpenChange={setShowCompletedDialog}
+            />
+          </div>
         </div>
       </div>
 

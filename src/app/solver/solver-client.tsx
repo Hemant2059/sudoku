@@ -261,7 +261,7 @@ function SolverInner() {
     <div
       ref={gridRef}
       tabIndex={-1}
-      className="min-h-[calc(100dvh-57px)] bg-background flex flex-col lg:flex-row items-center justify-center py-6 px-4 gap-6 lg:gap-8 max-w-6xl mx-auto w-full focus:outline-none transition-colors duration-200"
+      className="min-h-[calc(100dvh-57px)] bg-background flex flex-col lg:flex-row items-center justify-center py-6 px-4 gap-6 lg:gap-8 max-w-6xl mx-auto w-full focus:outline-none transition-colors duration-200 overflow-x-hidden"
     >
       <div className="w-full max-w-[500px] lg:max-w-[600px] lg:flex-1 relative flex flex-col items-center justify-center">
         {phase === "input" && (
@@ -290,80 +290,84 @@ function SolverInner() {
       <div className="w-full max-w-[500px] lg:w-[360px] lg:shrink-0 flex flex-col gap-4">
         {phase === "input" && (
           <>
-            <div className="bg-card p-5 rounded-2xl border border-border shadow-sm">
+            <div className="bg-card p-4 sm:p-5 rounded-2xl border border-border shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Solver Studio</h2>
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-secondary text-secondary-foreground">{filledCount} clues</span>
               </div>
-              <div className="mb-4">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide block mb-1">Grid Variant</label>
-                <select
-                  value={variant}
-                  onChange={(e) => { setVariant(e.target.value); variantRef.current = e.target.value; }}
-                  className="w-full px-3 py-2 rounded-xl border border-border bg-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all font-semibold"
-                >
-                  <option value="classic">Classic</option>
-                  <option value="xsudoku">X-Sudoku</option>
-                  <option value="hyper">Hyper-Sudoku</option>
-                  <option value="antiknight">Anti-Knight</option>
-                  <option value="antiking">Anti-King</option>
-                  <option value="thermo">Thermo</option>
-                  <option value="arrow">Arrow</option>
-                  <option value="palindrome">Palindromic</option>
-                  <option value="renban">Renban</option>
-                  <option value="kropki">Kropki</option>
-                  <option value="xv">XV</option>
-                  <option value="greaterthan">Greater Than</option>
-                </select>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleSolve}
-                  disabled={loading || filledCount < 17}
-                  className="flex-1 h-10 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:opacity-95 disabled:opacity-50 transition-all active:scale-95 cursor-pointer"
-                >
-                  {loading ? "Analyzing..." : "Solve Puzzle"}
-                </button>
-                <button
-                  onClick={handleErase}
-                  disabled={selectedIndex === null}
-                  className="h-10 px-4 rounded-xl border border-border hover:bg-secondary text-foreground text-xs font-semibold disabled:opacity-40 transition-all active:scale-95 cursor-pointer"
-                >
-                  Erase
-                </button>
-                <button
-                  onClick={handleClearAll}
-                  className="h-10 px-4 rounded-xl border border-border hover:bg-secondary text-foreground text-xs font-semibold transition-all active:scale-95 cursor-pointer"
-                >
-                  Clear
-                </button>
-              </div>
-            </div>
+              <div className="grid gap-4">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
+                  <div className="flex-1 min-w-0">
+                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide block mb-1">Grid Variant</label>
+                    <select
+                      value={variant}
+                      onChange={(e) => { setVariant(e.target.value); variantRef.current = e.target.value; }}
+                      className="w-full px-3 py-2 rounded-xl border border-border bg-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all font-semibold"
+                    >
+                      <option value="classic">Classic</option>
+                      <option value="xsudoku">X-Sudoku</option>
+                      <option value="hyper">Hyper-Sudoku</option>
+                      <option value="antiknight">Anti-Knight</option>
+                      <option value="antiking">Anti-King</option>
+                      <option value="thermo">Thermo</option>
+                      <option value="arrow">Arrow</option>
+                      <option value="palindrome">Palindromic</option>
+                      <option value="renban">Renban</option>
+                      <option value="kropki">Kropki</option>
+                      <option value="xv">XV</option>
+                      <option value="greaterthan">Greater Than</option>
+                    </select>
+                  </div>
+                  <div className="flex gap-2 pt-2 lg:pt-0">
+                    <button
+                      onClick={handleErase}
+                      disabled={selectedIndex === null}
+                      className="flex-1 h-11 px-3 rounded-xl border border-border bg-card hover:bg-secondary text-foreground text-xs font-semibold disabled:opacity-40 transition-all active:scale-95 cursor-pointer"
+                    >
+                      Erase
+                    </button>
+                    <button
+                      onClick={handleClearAll}
+                      className="flex-1 h-11 px-3 rounded-xl border border-border bg-card hover:bg-secondary text-foreground text-xs font-semibold transition-all active:scale-95 cursor-pointer"
+                    >
+                      Clear
+                    </button>
+                    <button
+                      onClick={handleSolve}
+                      disabled={loading || filledCount < 17}
+                      className="flex-1 h-11 px-3 rounded-xl bg-primary text-primary-foreground text-xs font-bold hover:opacity-95 disabled:opacity-50 transition-all active:scale-95 cursor-pointer"
+                    >
+                      {loading ? "Analyzing..." : "Solve"}
+                    </button>
+                  </div>
+                </div>
 
-            <div className="grid grid-cols-9 gap-1.5 justify-center">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-                <button
-                  key={n}
-                  onClick={() => handleNumber(n)}
-                  disabled={phase !== "input"}
-                  className="h-10 rounded-lg bg-card border border-border text-foreground text-base font-extrabold hover:bg-secondary disabled:opacity-40 transition-all active:scale-95 shadow-sm font-mono cursor-pointer"
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
+                <div className="grid grid-cols-9 gap-1.5 sm:gap-2 justify-center pt-2">
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => handleNumber(n)}
+                      disabled={phase !== "input"}
+                      className="h-11 px-0 rounded-xl bg-card border border-border text-foreground text-sm sm:text-base font-extrabold hover:bg-secondary disabled:opacity-40 transition-all active:scale-95 shadow-sm font-mono cursor-pointer"
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
 
-            <div className="bg-card p-5 rounded-2xl border border-border text-xs text-muted-foreground space-y-2.5 font-medium leading-relaxed">
-              <p>1. Select a cell on the grid and enter numbers (1-9) using your keyboard or the number pad.</p>
-              <p>2. Provide at least <strong className="text-foreground">17 clues</strong>.</p>
-              <p>3. Select the desired <strong className="text-foreground">grid variant</strong> and click <strong className="text-foreground">Solve Puzzle</strong> to analyze.</p>
+                <div className="hidden sm:block border-t border-border pt-4 text-xs text-muted-foreground space-y-2.5 font-medium leading-relaxed">
+                  <p>1. Select a cell on the grid and enter numbers (1-9) using your keyboard or the number pad.</p>
+                  <p>2. Provide at least <strong className="text-foreground">17 clues</strong>.</p>
+                  <p>3. Select the desired <strong className="text-foreground">grid variant</strong> and click <strong className="text-foreground">Solve Puzzle</strong> to analyze.</p>
+                </div>
+              </div>
             </div>
           </>
         )}
 
         {phase === "done" && step && (
           <>
-            <div className="bg-card p-5 rounded-2xl border border-border shadow-sm">
+            <div className="bg-card p-4 sm:p-5 rounded-2xl border border-border shadow-sm">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-mono text-muted-foreground font-bold">
                   Step {currentStep + 1} of {totalSteps}
@@ -383,25 +387,25 @@ function SolverInner() {
                   style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 pt-2">
                 <button
                   onClick={() => handleStepChange(currentStep - 1)}
                   disabled={currentStep === 0}
-                  className="flex-1 h-10 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
+                  className="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
                 >
                   ← Back
                 </button>
                 <button
                   onClick={() => handleStepChange(currentStep + 1)}
                   disabled={currentStep === totalSteps - 1}
-                  className="flex-1 h-10 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
+                  className="flex-1 h-11 px-3 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
                 >
                   Next →
                 </button>
                 <button
                   onClick={() => handleStepChange(0)}
                   disabled={currentStep === 0}
-                  className="h-10 px-3.5 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
+                  className="h-11 w-11 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
                   title="First step"
                 >
                   ⟪
@@ -409,7 +413,7 @@ function SolverInner() {
                 <button
                   onClick={() => handleStepChange(totalSteps - 1)}
                   disabled={currentStep === totalSteps - 1}
-                  className="h-10 px-3.5 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
+                  className="h-11 w-11 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-secondary disabled:opacity-40 transition-all active:scale-95"
                   title="Last step"
                 >
                   ⟫
@@ -417,7 +421,7 @@ function SolverInner() {
               </div>
             </div>
 
-            <div className="bg-card p-5 rounded-2xl border border-border space-y-4 shadow-sm">
+            <div className="bg-card p-4 sm:p-5 rounded-2xl border border-border space-y-4 shadow-sm">
               <div className="flex items-center gap-2">
                 <span className={strategyBadgeColor(step.strategyName) + " text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide border border-current/10"}>
                   {step.strategyName.replace(/_/g, " ")}
@@ -492,7 +496,7 @@ function SolverInner() {
               })()}
             </div>
 
-            <div className="bg-card p-4 rounded-2xl border border-border shadow-sm">
+            <div className="bg-card p-3 sm:p-4 rounded-2xl border border-border shadow-sm">
               <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-3">Map Legend</p>
               <div className="space-y-2.5 text-xs text-muted-foreground font-semibold">
                 <div className="flex items-center gap-3">

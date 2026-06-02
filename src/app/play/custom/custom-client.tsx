@@ -201,7 +201,7 @@ export function CustomClient() {
   }
 
   return (
-    <div className="min-h-[calc(100dvh-57px)] bg-background flex flex-col lg:flex-row items-center justify-center py-6 px-4 gap-6 lg:gap-8 max-w-6xl mx-auto w-full transition-colors duration-200">
+    <div className="min-h-[calc(100dvh-57px)] bg-background flex flex-col lg:flex-row items-center justify-center py-6 px-4 gap-6 lg:gap-8 max-w-6xl mx-auto w-full transition-colors duration-200 overflow-x-hidden">
       <div className="w-full max-w-[500px] lg:max-w-[600px] lg:flex-1 relative flex flex-col items-center">
         {/* Custom Tab Selector */}
         <div className="flex gap-1 mb-4 bg-secondary rounded-xl p-1 w-full max-w-[450px]">

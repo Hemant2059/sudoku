@@ -7,6 +7,10 @@ interface ActionRowProps {
   phase: string;
   loading: boolean;
   inputMode: InputMode;
+  undoDisabled: boolean;
+  redoDisabled: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
   onPencilToggle: () => void;
   onCenterToggle: () => void;
   onErase: () => void;
@@ -16,7 +20,7 @@ interface ActionRowProps {
   hintDisabled?: boolean;
 }
 
-const btnBase = "flex flex-col items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl transition-all duration-200 shadow-sm border disabled:opacity-40 cursor-pointer font-sans";
+const btnBase = "flex flex-col items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl transition-all duration-200 shadow-sm border disabled:opacity-40 cursor-pointer font-sans";
 const btnDefault = "bg-card border-border text-muted-foreground hover:text-foreground hover:bg-secondary";
 const btnActive = "bg-primary text-primary-foreground border-primary shadow-sm shadow-indigo-600/10 hover:opacity-95";
 
@@ -32,6 +36,10 @@ export function ActionRow({
   phase,
   loading,
   inputMode,
+  undoDisabled,
+  redoDisabled,
+  onUndo,
+  onRedo,
   onPencilToggle,
   onCenterToggle,
   onErase,
@@ -41,7 +49,15 @@ export function ActionRow({
   hintDisabled,
 }: ActionRowProps) {
   return (
-    <div className="flex items-center justify-center gap-2 sm:gap-3">
+    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+      <button onClick={onUndo} disabled={undoDisabled} className={cn(btnBase, btnDefault)}>
+        <svg className="w-4 h-4 sm:w-5 sm:h-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" /></svg>
+        <span className="text-[10px] font-medium">Undo</span>
+      </button>
+      <button onClick={onRedo} disabled={redoDisabled} className={cn(btnBase, btnDefault)}>
+        <svg className="w-4 h-4 sm:w-5 sm:h-5 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" /></svg>
+        <span className="text-[10px] font-medium">Redo</span>
+      </button>
       <button onClick={onPencilToggle} className={cn(btnBase, inputMode === "PENCIL" ? btnActive : btnDefault)}>
         <PencilIcon />
         <span className="text-[10px] font-medium">Notes</span>

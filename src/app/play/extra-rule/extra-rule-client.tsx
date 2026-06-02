@@ -12,7 +12,7 @@ const variantList = [
     bg: "bg-amber-500/5 hover:bg-amber-500/10",
     border: "border-amber-500/20 hover:border-amber-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <line x1="2" y1="2" x2="34" y2="34" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2" />
         <line x1="34" y1="2" x2="2" y2="34" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2" />
@@ -27,7 +27,7 @@ const variantList = [
     bg: "bg-sky-500/5 hover:bg-sky-500/10",
     border: "border-sky-500/20 hover:border-sky-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <rect x="5" y="5" width="8" height="8" rx="1" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeWidth="0.8" strokeDasharray="1.5 1" />
         <rect x="23" y="5" width="8" height="8" rx="1" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeWidth="0.8" strokeDasharray="1.5 1" />
@@ -44,7 +44,7 @@ const variantList = [
     bg: "bg-violet-500/5 hover:bg-violet-500/10",
     border: "border-violet-500/20 hover:border-violet-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <text x="14" y="12" fontSize="4" fill="currentColor">&times;</text>
         <text x="20" y="20" fontSize="4" fill="currentColor">&times;</text>
@@ -60,7 +60,7 @@ const variantList = [
     bg: "bg-rose-500/5 hover:bg-rose-500/10",
     border: "border-rose-500/20 hover:border-rose-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1.5" />
         <circle cx="18" cy="18" r="8" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 1" />
         <text x="17" y="20" fontSize="5" fill="currentColor">♚</text>
@@ -75,7 +75,7 @@ const variantList = [
     bg: "bg-red-500/5 hover:bg-red-500/10",
     border: "border-red-500/20 hover:border-red-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <circle cx="18" cy="28" r="4" fill="currentColor" fillOpacity="0.3" stroke="currentColor" strokeWidth="1.5" />
         <line x1="18" y1="24" x2="18" y2="6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
@@ -91,7 +91,7 @@ const variantList = [
     bg: "bg-orange-500/5 hover:bg-orange-500/10",
     border: "border-orange-500/20 hover:border-orange-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.5" />
         <line x1="16" y1="12" x2="28" y2="24" stroke="currentColor" strokeWidth="1.5" />
@@ -107,7 +107,7 @@ const variantList = [
     bg: "bg-pink-500/5 hover:bg-pink-500/10",
     border: "border-pink-500/20 hover:border-pink-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <line x1="6" y1="18" x2="18" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         <line x1="18" y1="10" x2="30" y2="26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -126,7 +126,7 @@ const variantList = [
     bg: "bg-teal-500/5 hover:bg-teal-500/10",
     border: "border-teal-500/20 hover:border-teal-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <path d="M6 8 Q12 4 18 8 T30 8 T36 14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
       </svg>
@@ -140,7 +140,7 @@ const variantList = [
     bg: "bg-cyan-500/5 hover:bg-cyan-500/10",
     border: "border-cyan-500/20 hover:border-cyan-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <circle cx="13" cy="18" r="2" fill="white" stroke="currentColor" strokeWidth="1" />
         <circle cx="23" cy="18" r="2" fill="currentColor" />
@@ -156,7 +156,7 @@ const variantList = [
     bg: "bg-lime-500/5 hover:bg-lime-500/10",
     border: "border-lime-500/20 hover:border-lime-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <text x="6" y="22" fontSize="12" fontWeight="bold" fill="currentColor">V</text>
         <text x="21" y="22" fontSize="12" fontWeight="bold" fill="currentColor">X</text>
@@ -171,7 +171,7 @@ const variantList = [
     bg: "bg-indigo-500/5 hover:bg-indigo-500/10",
     border: "border-indigo-500/20 hover:border-indigo-500/40",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <text x="16" y="17" fontSize="8" fill="currentColor">&lt;</text>
         <text x="16" y="29" fontSize="8" fill="currentColor">&gt;</text>
@@ -184,7 +184,7 @@ export function ExtraRuleClient() {
   const router = useRouter();
 
   return (
-    <div className="min-h-[calc(100dvh-57px)] bg-background flex justify-center p-4 sm:p-8 transition-colors duration-200">
+    <div className="min-h-[calc(100dvh-57px)] bg-background flex justify-center p-4 sm:p-8 transition-colors duration-200 overflow-x-hidden">
       <div className="w-full max-w-4xl">
         <div className="mb-6">
           <button

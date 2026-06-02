@@ -1,15 +1,90 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Sparkles, Brain, Award, Play } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Play Sudoku Online — Free Classic & Variant Puzzles",
+  description:
+    "Play classic Sudoku and 12+ variants (Killer, X-Sudoku, Thermo, Arrow, Anti-Knight, Palindrome) online for free at SudoZen. Step-by-step solver with logical hints, pencil marks, cell colors, and interactive strategy guides for all skill levels.",
+  openGraph: {
+    title: "Play Sudoku Online — Free Classic & Variant Puzzles | SudoZen",
+    description:
+      "Play free Sudoku online with 12+ variants, a step-by-step logic solver, smart hints, and interactive strategy guides. Classic, Killer, X-Sudoku, Thermo, Arrow, and more.",
+    url: "https://sudozen.com",
+    images: [{ url: "/og_image.png", width: 1200, height: 630, alt: "SudoZen Sudoku Online" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Play Sudoku Online — Free Classic & Variant Puzzles | SudoZen",
+    description:
+      "Play free Sudoku online. Classic, Killer, X-Sudoku, Thermo, Arrow — 12+ variants with a step-by-step logic solver.",
+    images: ["/og_image.png"],
+  },
+  alternates: {
+    canonical: "https://sudozen.com",
+  },
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is Sudoku?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sudoku is a logic-based number-placement puzzle. The goal is to fill a 9×9 grid so that each row, column, and 3×3 block contains the digits 1–9 exactly once.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is SudoZen free to use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, SudoZen is completely free. Play classic Sudoku and 12+ variant modes, use the step-by-step solver, and learn strategies — all without any cost or subscription.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What Sudoku variants does SudoZen support?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "SudoZen supports 12+ variants: Classic, Killer, X-Sudoku, Hyper-Sudoku, Anti-Knight, Anti-King, Thermo, Arrow, Palindrome, Renban, Kropki Dots, XV, and Greater Than. Each variant adds unique logical constraints.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How does the Sudoku solver work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Our solver analyzes your puzzle step by step, showing each logical deduction with strategy names, grid mutations, and proof chains. It supports all 12+ variants and explains techniques like Naked Singles, X-Wing, Swordfish, and forcing chains.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I learn Sudoku strategies on SudoZen?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, the Learn section provides an interactive strategy guide covering techniques from Naked Singles (easy) to Forcing Chains (extreme). Each strategy includes example grids, logical explanations, and links to practice in the solver.",
+      },
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
-    <div className="min-h-dvh flex flex-col justify-between">
+    <div className="min-h-dvh flex flex-col justify-between overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative overflow-hidden bg-gradient-to-b from-indigo-600/10 via-background to-background dark:from-indigo-950/20 pt-20 pb-16 md:pt-28 md:pb-24 border-b border-border">
           <div className="max-w-5xl mx-auto px-4 text-center relative z-10">
             <div className="w-24 h-24 mx-auto mb-8 bg-card backdrop-blur rounded-3xl flex items-center justify-center border border-border shadow-xl dark:shadow-indigo-950/10 animate-bounce-subtle">
-              <svg viewBox="0 0 32 32" className="w-12 h-12 text-primary" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg viewBox="0 0 32 32" className="w-12 h-12 text-primary" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                 <circle cx="16" cy="16" r="13" className="stroke-primary" opacity="0.9" />
                 <circle cx="16" cy="16" r="7" className="stroke-indigo-500" opacity="0.7" strokeDasharray="3 2" />
                 <line x1="16" y1="3" x2="16" y2="29" className="stroke-primary" opacity="0.5" />
@@ -26,23 +101,23 @@ export default function HomePage() {
               Achieve a state of perfect focus. Challenge your mind with classic Sudoku, explore advanced variant mechanics, or master techniques step-by-step.
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row justify-center items-stretch gap-3 max-w-2xl mx-auto">
               <Link
                 href="/play"
-                className="w-full sm:w-auto inline-flex h-13 px-8 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-base hover:opacity-95 hover:shadow-lg hover:shadow-indigo-600/10 transition-all duration-200 active:scale-[0.98]"
+                className="flex-1 inline-flex h-14 px-8 items-center justify-center rounded-2xl bg-primary text-primary-foreground font-bold text-base hover:opacity-95 hover:shadow-lg hover:shadow-indigo-600/10 transition-all duration-200 active:scale-[0.98]"
               >
                 <Play className="w-5 h-5 mr-2 fill-current" />
                 Play Now
               </Link>
               <Link
                 href="/solver"
-                className="w-full sm:w-auto inline-flex h-13 px-8 items-center justify-center rounded-2xl bg-card text-foreground font-semibold text-base hover:bg-secondary transition-all border border-border shadow-sm active:scale-[0.98]"
+                className="flex-1 inline-flex h-14 px-8 items-center justify-center rounded-2xl bg-card text-foreground font-semibold text-base hover:bg-secondary transition-all border border-border shadow-sm active:scale-[0.98]"
               >
                 Open Solver
               </Link>
               <Link
                 href="/learn"
-                className="w-full sm:w-auto inline-flex h-13 px-8 items-center justify-center rounded-2xl bg-card text-foreground font-semibold text-base hover:bg-secondary transition-all border border-border shadow-sm active:scale-[0.98]"
+                className="flex-1 inline-flex h-14 px-8 items-center justify-center rounded-2xl bg-card text-foreground font-semibold text-base hover:bg-secondary transition-all border border-border shadow-sm active:scale-[0.98]"
               >
                 Learn strategies
               </Link>

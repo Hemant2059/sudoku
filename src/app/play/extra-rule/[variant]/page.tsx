@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { VariantClient } from "./variant-client";
 
 const variantMeta: Record<string, { name: string; description: string }> = {
   xsudoku: { name: "X-Sudoku", description: "Both main diagonals must also contain digits 1–9 exactly once." },
@@ -15,6 +14,22 @@ const variantMeta: Record<string, { name: string; description: string }> = {
   greaterthan: { name: "Greater Than", description: "Inequality signs between adjacent cells indicate their relative order." },
 };
 
+const variantKeywords: Record<string, string[]> = {
+  xsudoku: ["x sudoku", "x-sudoku", "diagonal sudoku", "sudoku x"],
+  hyper: ["hyper sudoku", "window sudoku", "hyper sudoku online"],
+  antiknight: ["anti knight sudoku", "knight move sudoku", "anti-knight"],
+  antiking: ["anti king sudoku", "king move sudoku", "anti-king"],
+  thermo: ["thermo sudoku", "thermometer sudoku", "thermo sudoku online"],
+  arrow: ["arrow sudoku", "arrow sudoku online", "sum sudoku variant"],
+  palindrome: ["palindrome sudoku", "palindromic sudoku", "palindrome puzzle"],
+  renban: ["renban sudoku", "renban line sudoku", "consecutive sudoku"],
+  kropki: ["kropki sudoku", "kropki dots", "dot sudoku"],
+  xv: ["xv sudoku", "x v sudoku", "sum sudoku xv"],
+  greaterthan: ["greater than sudoku", "inequality sudoku", "greater sudoku"],
+};
+
+const baseUrl = "https://sudozen.com";
+
 type Props = {
   params: Promise<{ variant: string }>;
 };
@@ -22,15 +37,40 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { variant } = await params;
   const meta = variantMeta[variant];
+  const keywords = variantKeywords[variant] || [];
+
+  if (!meta) {
+    return {
+      title: "Sudoku Variant Puzzle",
+      description: "Play creative Sudoku variants online at SudoZen.",
+      alternates: { canonical: `${baseUrl}/play/extra-rule/${variant}` },
+    };
+  }
+
   return {
-    title: meta ? `${meta.name} Variant Sudoku` : "Variant Sudoku Puzzle",
-    description: meta 
-      ? `${meta.name} Puzzle: ${meta.description} Play this advanced constraint board on SudoZen.`
-      : "Play creative Sudoku variants online on SudoZen.",
+    title: `${meta.name} — Play Free Online`,
+    description: `Play ${meta.name} Sudoku online for free at SudoZen. ${meta.description} Features step-by-step solver, logical hints, pencil marks, and a distraction-free interface.`,
+    keywords: [...keywords, "sudoku variants", "play sudoku online", "sudozen"],
+    openGraph: {
+      title: `${meta.name} Sudoku — Play Free Online | SudoZen`,
+      description: `Play free ${meta.name} Sudoku online. ${meta.description} Hints, solver, and pencil marks included.`,
+      url: `${baseUrl}/play/extra-rule/${variant}`,
+      images: [{ url: "/og_image.png", width: 1200, height: 630, alt: `${meta.name} Sudoku on SudoZen` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${meta.name} Sudoku — Play Free Online | SudoZen`,
+      description: `Play free ${meta.name} Sudoku online with hints and a step-by-step solver.`,
+      images: ["/og_image.png"],
+    },
+    alternates: {
+      canonical: `${baseUrl}/play/extra-rule/${variant}`,
+    },
   };
 }
 
 export default async function VariantPlayPage({ params }: Props) {
   const { variant } = await params;
+  const { VariantClient } = await import("./variant-client");
   return <VariantClient variant={variant} />;
 }

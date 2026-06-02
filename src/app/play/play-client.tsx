@@ -9,7 +9,7 @@ const modes = [
     title: "Classic Sudoku",
     description: "Standard 9×9 grid. Fill cells so every row, column, and 3×3 box contains digits 1 to 9 exactly once.",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="2.5" />
         <line x1="14" y1="2" x2="14" y2="34" stroke="currentColor" strokeWidth="1.5" />
         <line x1="22" y1="2" x2="22" y2="34" stroke="currentColor" strokeWidth="1.5" />
@@ -26,7 +26,7 @@ const modes = [
     title: "Killer Sudoku",
     description: "Classic rules plus cage groupings with math sum clues. Digits cannot repeat within a cage constraint.",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2" />
         <line x1="14" y1="2" x2="14" y2="34" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
         <line x1="22" y1="2" x2="22" y2="34" stroke="currentColor" strokeWidth="1" strokeOpacity="0.3" />
@@ -43,7 +43,7 @@ const modes = [
     title: "Variant Extra Rule",
     description: "Classic rules plus specialized grid layouts: X-Sudoku diagonals, Anti-Knight movements, Thermo, or Arrow constraints.",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="2" y="2" width="32" height="32" rx="3" stroke="currentColor" strokeWidth="2" />
         <line x1="2" y1="2" x2="34" y2="34" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
         <line x1="2" y1="34" x2="34" y2="2" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 3" />
@@ -58,7 +58,7 @@ const modes = [
     title: "Custom Sandbox",
     description: "Enter your own board strings, cage definitions, or constraints manually to practice or analyze.",
     icon: (
-      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none">
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
         <rect x="4" y="4" width="28" height="28" rx="3" stroke="currentColor" strokeWidth="2.5" />
         <path d="M10 18h16M18 10v16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
       </svg>
@@ -73,7 +73,7 @@ export function PlayClient() {
   const router = useRouter();
 
   return (
-    <div className="min-h-[calc(100dvh-57px)] flex items-center justify-center p-4 sm:p-8 bg-background transition-colors duration-200">
+    <div className="min-h-[calc(100dvh-57px)] flex items-center justify-center p-4 sm:p-8 bg-background transition-colors duration-200 overflow-x-hidden">
       <div className="w-full max-w-3xl">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-extrabold tracking-tight mb-3">

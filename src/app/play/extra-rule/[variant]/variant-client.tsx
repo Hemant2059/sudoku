@@ -53,7 +53,7 @@ export function VariantClient({ variant }: VariantClientProps) {
 
   if (!meta) {
     return (
-      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200">
+      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200 overflow-x-hidden">
         <p className="text-destructive font-semibold">Unknown variant constraint: {variant}</p>
       </div>
     );
@@ -61,7 +61,7 @@ export function VariantClient({ variant }: VariantClientProps) {
 
   if (meta.status === "coming-soon") {
     return (
-      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200">
+      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200 overflow-x-hidden">
         <div className="text-center max-w-md bg-card p-6 rounded-2xl border border-border shadow-sm">
           <h1 className="text-2xl font-bold text-foreground mb-3">
             {meta.name}
@@ -87,7 +87,7 @@ export function VariantClient({ variant }: VariantClientProps) {
 
   if (loading && !data) {
     return (
-      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200">
+      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200 overflow-x-hidden">
         <div className="text-muted-foreground flex items-center gap-3 font-semibold text-sm">
           <svg className="animate-spin h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -101,7 +101,7 @@ export function VariantClient({ variant }: VariantClientProps) {
 
   if (error) {
     return (
-      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200">
+      <div className="min-h-[calc(100dvh-57px)] bg-background flex items-center justify-center p-4 transition-colors duration-200 overflow-x-hidden">
         <div className="text-center max-w-md bg-card p-6 rounded-2xl border border-border shadow-sm">
           <p className="text-destructive mb-4 font-semibold text-sm">{error}</p>
           <button
