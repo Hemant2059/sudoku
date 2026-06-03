@@ -67,6 +67,22 @@ const modes = [
     bg: "bg-emerald-500/5 hover:bg-emerald-500/10",
     border: "border-emerald-500/20 hover:border-emerald-500/40",
   },
+  {
+    id: "timed",
+    title: "Timed Mode",
+    description: "Race against the clock. Select a difficulty and solve the puzzle before time runs out.",
+    icon: (
+      <svg className="w-8 h-8" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2.5" />
+        <line x1="18" y1="18" x2="18" y2="10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+        <line x1="18" y1="18" x2="24" y2="18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="18" cy="18" r="2.5" fill="currentColor" />
+      </svg>
+    ),
+    color: "text-orange-500 dark:text-orange-400",
+    bg: "bg-orange-500/5 hover:bg-orange-500/10",
+    border: "border-orange-500/20 hover:border-orange-500/40",
+  },
 ];
 
 export function PlayClient() {

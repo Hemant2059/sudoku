@@ -12,12 +12,20 @@ function splitmix64(seed: number): number {
   return (z ^ (z >>> 31)) >>> 0;
 }
 
+function hashSeed(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  }
+  return h >>> 0;
+}
+
 function randomRange(seed: () => number, lo: number, hi: number): number {
   return lo + (seed() % (hi - lo + 1));
 }
 
-function createSeededRandom(): () => number {
-  let state = (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0;
+export function createSeededRandom(seed?: number): () => number {
+  let state = seed !== undefined ? seed >>> 0 : (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0;
   return () => {
     state = splitmix64(state);
     return state;
@@ -175,8 +183,8 @@ function clueRange(difficulty: Difficulty): [number, number] {
   }
 }
 
-export function generatePuzzle(difficulty: Difficulty): GeneratedPuzzle {
-  const rng = createSeededRandom();
+export function generatePuzzle(difficulty: Difficulty, seed?: number): GeneratedPuzzle {
+  const rng = createSeededRandom(seed);
   const [minClues, maxClues] = clueRange(difficulty);
 
   for (let attempt = 0; attempt < 50; attempt++) {
@@ -563,8 +571,9 @@ function generateRegionVariantPuzzle(
   variant: VariantType,
   solveFn: (p: Grid) => Grid,
   validateFn: (p: Grid) => Grid,
+  seed?: number,
 ): GeneratedPuzzle {
-  const rng = createSeededRandom();
+  const rng = createSeededRandom(seed);
   const [minClues] = clueRange(difficulty);
 
   for (let attempt = 0; attempt < 100; attempt++) {
@@ -597,8 +606,8 @@ function generateRegionVariantPuzzle(
   throw new Error(`Failed to generate ${variant} puzzle after 100 attempts.`);
 }
 
-export function generateBacktrackVariantPuzzle(difficulty: Difficulty, variant: VariantType): GeneratedPuzzle {
-  const rng = createSeededRandom();
+export function generateBacktrackVariantPuzzle(difficulty: Difficulty, variant: VariantType, seed?: number): GeneratedPuzzle {
+  const rng = createSeededRandom(seed);
   const [minClues] = clueRange(difficulty);
 
   for (let attempt = 0; attempt < 100; attempt++) {
@@ -629,14 +638,14 @@ export function generateBacktrackVariantPuzzle(difficulty: Difficulty, variant: 
   throw new Error(`Failed to generate ${variant} puzzle after 100 attempts.`);
 }
 
-export function generateVariantPuzzle(difficulty: Difficulty, variant: VariantType): GeneratedPuzzle {
+export function generateVariantPuzzle(difficulty: Difficulty, variant: VariantType, seed?: number): GeneratedPuzzle {
   switch (variant) {
-    case VariantType.Classic: return generatePuzzle(difficulty);
-    case VariantType.XSudoku: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveVariant, dlx.validateAndSolveVariant);
-    case VariantType.Hyper: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveHyper, dlx.validateAndSolveHyper);
-    case VariantType.AntiKnight: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveAntiknight, dlx.validateAndSolveAntiknight);
-    case VariantType.AntiKing: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveAntiking, dlx.validateAndSolveAntiking);
-    default: return generateBacktrackVariantPuzzle(difficulty, variant);
+    case VariantType.Classic: return generatePuzzle(difficulty, seed);
+    case VariantType.XSudoku: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveVariant, dlx.validateAndSolveVariant, seed);
+    case VariantType.Hyper: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveHyper, dlx.validateAndSolveHyper, seed);
+    case VariantType.AntiKnight: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveAntiknight, dlx.validateAndSolveAntiknight, seed);
+    case VariantType.AntiKing: return generateRegionVariantPuzzle(difficulty, variant, dlx.validateAndSolveAntiking, dlx.validateAndSolveAntiking, seed);
+    default: return generateBacktrackVariantPuzzle(difficulty, variant, seed);
   }
 }
 

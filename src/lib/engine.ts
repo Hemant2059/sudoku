@@ -83,6 +83,21 @@ function formatSolveResult(puzzleStr: string, commands: any[], solvedGrid: strin
   };
 }
 
+export function hashDateSeed(dateStr: string): number {
+  let h = 0;
+  for (let i = 0; i < dateStr.length; i++) {
+    h = (Math.imul(31, h) + dateStr.charCodeAt(i)) | 0;
+  }
+  return h >>> 0;
+}
+
+export function generateDailyPuzzle(): GenerationResponse {
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const seed = hashDateSeed(dateStr);
+  const gen = genPuzzle(difficultyFromString("medium"), seed);
+  return formatGenerated(gen) as GenerationResponse;
+}
+
 export function generatePuzzle(difficulty: string): GenerationResponse {
   const gen = genPuzzle(difficultyFromString(difficulty));
   return formatGenerated(gen) as GenerationResponse;

@@ -86,9 +86,10 @@ interface PlayGameProps {
   onNewGame?: () => void;
   variant?: string;
   constraints?: VariantConstraints;
+  maxTime?: number;
 }
 
-export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty, onNewGame: onNewGameProp, variant, constraints }: PlayGameProps) {
+export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty, onNewGame: onNewGameProp, variant, constraints, maxTime }: PlayGameProps) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -103,7 +104,7 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
   const [numberStamp, setNumberStamp] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [numMoves, setNumMoves] = useState(0);
-  const [phase, setPhase] = useState<"idle" | "playing" | "submitting" | "correct" | "wrong">("idle");
+  const [phase, setPhase] = useState<"idle" | "playing" | "submitting" | "correct" | "wrong" | "timeout">("idle");
   const [mistakes, setMistakes] = useState<Set<number>>(new Set());
   const [puzzleString, setPuzzleString] = useState<string>("");
   const [solution, setSolution] = useState<string | null>(null);
@@ -930,7 +931,22 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [phase, paused]);
 
+  useEffect(() => {
+    if (maxTime && phase === "playing" && elapsed >= maxTime) {
+      setPhase("timeout");
+    }
+  }, [elapsed, maxTime, phase]);
+
+  const remainingTime = maxTime ? Math.max(0, maxTime - elapsed) : null;
+
   const fmtTime = (s: number) => {
+    const val = remainingTime !== null ? remainingTime : s;
+    const m = Math.floor(val / 60);
+    const sec = val % 60;
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  };
+
+  const fmtElapsed = (s: number) => {
     const m = Math.floor(s / 60);
     const sec = s % 60;
     return `${m}:${sec.toString().padStart(2, "0")}`;
@@ -1013,14 +1029,26 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
               <SuccessOverlay
                 difficulty={difficulty}
                 elapsed={elapsed}
-                fmtTime={fmtTime}
+                fmtTime={fmtElapsed}
                 onPlayAgain={() => newGame()}
               />
+            )}
+            {phase === "timeout" && (
+              <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/80 dark:bg-zinc-950/80 backdrop-blur-sm rounded-xl animate-in fade-in duration-200">
+                <div className="text-center p-6 bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl border border-orange-200 dark:border-orange-900/30 transform scale-100 animate-in zoom-in-95 duration-300">
+                  <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/50 text-orange-500 dark:text-orange-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Time&apos;s Up!</h3>
+                  <p className="text-sm text-slate-500 mb-6">You ran out of time. Try again?</p>
+                  <button onClick={handleHeaderNewGame} className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors shadow-lg shadow-orange-500/25">Play Again</button>
+                </div>
+              </div>
             )}
             {paused && (
               <PauseOverlay
                 elapsed={elapsed}
-                fmtTime={fmtTime}
+                fmtTime={fmtElapsed}
                 onResume={handlePauseToggle}
               />
             )}
@@ -1101,6 +1129,11 @@ export function PlayGame({ initialPuzzle, initialSolution, cages, hideDifficulty
             {phase === "wrong" && (
               <div className="text-center text-[10px] font-bold text-red-500 py-1">
                 {mistakes.size} ERRORS
+              </div>
+            )}
+            {phase === "timeout" && (
+              <div className="text-center text-[10px] font-bold text-orange-500 py-1">
+                TIME UP!
               </div>
             )}
 
