@@ -95,9 +95,9 @@ export const metadata: Metadata = {
     icon: "/logo.png",
     apple: "/logo.png",
   },
-  // verification: {
-  //   google: "YOUR_GOOGLE_VERIFICATION_CODE",
-  // },
+  verification: {
+    google: "hb7T1JTtI-p5rLAWqhiYKc3BJySemkcYXlu5PEJspGs",
+  },
 };
 
 const jsonLd = {
