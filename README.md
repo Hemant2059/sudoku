@@ -50,18 +50,24 @@ Open [https://sudozen.vercel.app](https://sudozen.vercel.app) in your browser.
 
 ## Rust Binary
 
-The Sudoku engine is a standalone Rust binary that handles puzzle generation, solving, and hint computation. It's called via `execFileSync` from the API routes.
+The Sudoku engine is a standalone Rust binary at `rust/` that handles puzzle generation, solving, and hint computation.
+
+### Build locally
+
+```bash
+cd rust
+cargo build --release
+cp target/release/soduko ../bin/soduko
+cd ..
+```
+
+### How it works
 
 - Default path: `bin/soduko` (relative to project root)
 - Override with: `SODUKO_BIN` environment variable
-- `.env.local` is pre-configured for local development
-
-### Build the Rust binary
-
-```bash
-cd /path/to/soduko
-cargo build --release
-```
+- On **Vercel**: the `vercel.json` build command compiles the Rust binary during deployment
+- On **local dev**: build manually using the steps above
+- The binary is called via `execFileSync` from the API routes
 
 ## Project Structure
 

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { execFileSync } from "child_process";
-
-const BINARY_PATH = process.env.SODUKO_BIN || "/Users/hemant/Desktop/soduko/target/release/soduko";
+import { solveVariantPuzzle } from "@/lib/engine";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,12 +15,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const args = ["--variant-solve", puzzle, variant];
-    if (constraints) {
-      args.push(constraints);
-    }
-    const raw = execFileSync(BINARY_PATH, args, { encoding: "utf-8", timeout: 30000 });
-    const result = JSON.parse(raw);
+    const result = solveVariantPuzzle(puzzle, variant, constraints);
     return NextResponse.json(result);
   } catch (e: any) {
     return NextResponse.json(
